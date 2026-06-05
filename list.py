@@ -13,3 +13,9 @@ for i in range(len(mark)):
         print(f"mark is {student[i]} {mark[i]} and grade is B")
     else:
         print(f"mark is {student[2]} {mark[i]} and grade is C")
+
+
+#create virtual environment
+#python -m venv myenv
+#source myenv/bin/activate  # On Windows: \Scripts\activatemyenv
+#pip install flask  
