@@ -1,47 +1,77 @@
-from appmy import Flask
+from flask import Flask, render_template, request, redirect, url_for,redirect,flash
 
 app = Flask(__name__)
+app.secret_key = 'collegeportal'
 
-# List of Dictionaries (Student Records)
 students = [
-    {"id": 101, "name": "Dipak", "course": "Computer Engineering", "percentage": 80},
-    {"id": 102, "name": "vedansh", "course": "Computer Engineering", "percentage": 68},
-    {"id": 103, "name": "prisha", "course": "Computer Engineering", "percentage": 88},
-    {"id": 104, "name": "suzzane", "course": "Computer Engineering", "percentage": 58},
-    {"id": 105, "name": "kushal", "course": "Computer Engineering", "percentage": 92}
+    {
+        "name": "Dipak Madane",
+        "roll": 101,
+        "attendance": "92%",
+        "marks": 85
+    },
+    {
+        "name": "Prisha Madane",
+        "roll": 102,
+        "attendance": "95%",
+        "marks": 90
+    },
+    {
+        "name": "Vedansh Madane",
+        "roll": 103,
+        "attendance": "88%",
+        "marks": 78
+    },
+    {
+        "name": "Devansh Madane",
+        "roll": 104,
+        "attendance": "97%",
+        "marks": 94
+    },
+    {
+        "name": "Aarav Madane",
+        "roll": 105,
+        "attendance": "90%",
+        "marks": 82
+    }
 ]
+@app.route("/add", methods=["GET", "POST"])
+def add_student():
 
-# Route 1 - Homepage
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        roll = request.form["roll"]
+        attendance = request.form["attendance"]
+        marks = request.form["marks"]
+
+        if not name or not roll or not attendance or not marks:
+            flash("All fields are required!", "danger")
+            return redirect(url_for("add_student"))
+
+        students.append({
+            "name": name,
+            "roll": roll,
+            "attendance": attendance,
+            "marks": marks
+        })
+
+        flash("Student Added Successfully!", "success")
+
+        return redirect(url_for("records"))
+
+    return render_template("add_student.html")
 @app.route("/")
 def home():
-    return """
-    <h1>College Smart Portal</h1>
-    <p>A simple portal for managing student records, marks and attendance.</p>
-    """
+    return render_template("home.html")
 
-# Route 2 - Records Page
 @app.route("/records")
 def records():
-    output = "<h1>Student Records</h1>"
-    for student in students:
-        output += f"""
-        <p>
-        ID: {student['id']}<br>
-        Name: {student['name']}<br>
-        Course: {student['course']}<br>
-        Percentage: {student['percentage']}%
-        </p>
-        <hr>
-        """
-    return output
-
-# Route 3 - Extra Route
+    return render_template("record.html", students=students)
 @app.route("/about")
-def about():
-    return """
-    <h1>About Project</h1>
-    <p>College Smart Portal is developed using Python Flask.</p>
-    """
+def about():    
+    return render_template("about.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
