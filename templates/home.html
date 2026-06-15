@@ -1,43 +1,66 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<p class="text-center text-muted mt-3">
+ Welcome to the College Smart Portal  🎓📊
+</p>
+<div class="p-5 mb-4 bg-primary text-white rounded text-center">
+    <h1> 🎓 College Smart Portal</h1>
+    <p> Manage Students,Attendance and Records Easily</p>
+</div>
+<div class="mt-3">
+    <a href="{{ url_for('add_student') }}" class="btn btn-success">
+        ➕ Add Student
+    </a>
+
+    <a href="{{ url_for('records') }}" class="btn btn-primary">
+        📋 View Records
+    </a>
+
+    <a href="{{ url_for('about') }}" class="btn btn-warning">
+        ℹ️ About
+    </a>
+</div>
+<p class="text-end mt-3">
+    📅 Last Updated:Today
+</p>
 
 <div class="container mt-4">
 
-    <h2>Welcome to College Smart Portal</h2>
+</div>
 
-    <!-- Cards Start -->
-    <div class="row">
 
-        <div class="col-md-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h5>Total Students</h5>
-                    <span class="badge bg-primary">120</span>
-                </div>
+<div class="row mt-4">
+
+    <div class="col-md-4">
+        <div class="card bg-primary text-white shadow">
+            <div class="card-body text-center">
+                <h5>🎓 Total Students</h5>
+                <h2>{{ total }}</h2>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h5>Attendance</h5>
-                    <span class="badge bg-success">95%</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h5>Notices</h5>
-                    <span class="badge bg-warning text-dark">5 New</span>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <!-- Cards End -->
+
+    <div class="col-md-4">
+        <div class="card bg-success text-white shadow">
+            <div class="card-body text-center">
+                <h5>📊 Attendance</h5>
+                <h2>85%</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-warning shadow">
+            <div class="card-body text-center">
+                <h5>📢 Notices</h5>
+                <h2>5 New</h2>
+            </div>
+        </div>
+    </div>
+
+</div
+    
 
 </div>
 

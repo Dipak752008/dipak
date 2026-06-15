@@ -23,7 +23,6 @@ def init_db():
             roll TEXT NOT NULL,
             attendance TEXT NOT NULL,
             marks INTEGER NOT NULL
-        
         )
     """)
 
@@ -34,47 +33,31 @@ def init_db():
 # Home Page
 @app.route("/")
 def home():
-
     conn = get_db()
 
     students = conn.execute(
         "SELECT * FROM students"
     ).fetchall()
 
-    total = conn.execute(
-        "SELECT COUNT(*) FROM students"
-    ).fetchone()[0]
-
     conn.close()
 
-    return render_template(
-        "home.html",
-        students=students,
-        total=total
-    )
+    return render_template("home.html", students=students)
 
 
 # Records Page
-@app.route("/record")
+@app.route("/records")
 def records():
-
-    search = request.args.get("search", "")
-
     conn = get_db()
 
-    if search:
-        students = conn.execute(
-            "SELECT * FROM students WHERE name LIKE ?",
-            ('%' + search + '%',)
-        ).fetchall()
-    else:
-        students = conn.execute(
-            "SELECT * FROM students"
-        ).fetchall()
+    students = conn.execute(
+        "SELECT * FROM students"
+    ).fetchall()
 
     conn.close()
 
-    return render_template("record.html", students=students)
+    return render_template("records.html", students=students)
+
+
 # About Page
 @app.route("/about")
 def about():
@@ -116,24 +99,6 @@ def add_student():
         return redirect(url_for("records"))
 
     return render_template("add_student.html")
-@app.route("/delete/<int:id>")
-def delete_student(id): 
-    conn = get_db()
-
-    conn.execute(
-        "DELETE FROM students WHERE id = ?", (id,)
-    )
-
-
-    conn.commit()
-    conn.close()
-
-    flash("Student Deleted Successfully!", "success")
-
-    return redirect(url_for("records"))
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template("404.html"), 404
 
 
 if __name__ == "__main__":
