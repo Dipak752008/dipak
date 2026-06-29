@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow p-4">
+
+<h2 class="text-center text-primary">
+    👨‍🎓 Student Details
+</h2>
+
+<hr>
+
+<p><b>👤 Name:</b> {{ student.name }}</p>
+
+<p><b>🎫 Roll No:</b> {{ student.roll }}</p>
+
+<p><b>📊 Attendance:</b> {{ student.attendance }}</p>
+
+<p><b>📈 Marks:</b> {{ student.marks }}</p>
+
+<a href="{{ url_for('records') }}" class="btn btn-secondary">
+    ⬅️ Back
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

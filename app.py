@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, flash
-
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = "collegeportal"
 
@@ -17,6 +16,7 @@ def get_db():
 def init_db():
     conn = get_db()
 
+    # Students Table
     conn.execute("""
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,7 +24,15 @@ def init_db():
             roll TEXT NOT NULL,
             attendance TEXT NOT NULL,
             marks INTEGER NOT NULL
-        
+        )
+    """)
+
+    # Users Table
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
         )
     """)
 
@@ -60,26 +68,98 @@ def home():
 def records():
 
     search = request.args.get("search", "")
+    attendance = request.args.get("attendance", "")
 
     conn = get_db()
 
+    query = "SELECT * FROM students WHERE 1=1"
+    params = []
+
     if search:
-        students = conn.execute(
-            "SELECT * FROM students WHERE name LIKE ?",
-            ('%' + search + '%',)
-        ).fetchall()
-    else:
-        students = conn.execute(
-            "SELECT * FROM students"
-        ).fetchall()
+        query += " AND name LIKE ?"
+        params.append("%" + search + "%")
+
+    if attendance:
+        query += " AND attendance = ?"
+        params.append(attendance)
+
+    students = conn.execute(  query,  params ).fetchall()
 
     conn.close()
 
-    return render_template("record.html", students=students)
+    return render_template(
+        "record.html",
+        students=students
+    )
 # About Page
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+
+        conn = get_db()
+
+        existing = conn.execute(
+            "SELECT * FROM users WHERE username=?",
+            (username,)
+        ).fetchone()
+
+        if existing:
+            flash("Username already exists!", "danger")
+            conn.close()
+            return redirect(url_for("register"))
+
+        hashed = generate_password_hash(password)
+
+        conn.execute(
+            "INSERT INTO users(username, password) VALUES (?, ?)",
+            (username, hashed)
+        )
+
+        conn.commit()
+        conn.close()
+
+        flash("Registration Successful!", "success")
+
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+
+        conn = get_db()
+
+        user = conn.execute(
+            "SELECT * FROM users WHERE username=?",
+            (username,)
+        ).fetchone()
+
+        conn.close()
+
+        if user and check_password_hash(user["password"], password):
+
+            session["username"] = username
+
+            flash("Login Successful!", "success")
+
+            return redirect(url_for("home"))
+
+        flash("Invalid Username or Password", "danger")
+
+    return render_template("login.html")
 
 
 # Add Student
@@ -117,7 +197,39 @@ def add_student():
         return redirect(url_for("records"))
 
     return render_template("add_student.html")
-@app.route("/delete/<int:id>")
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit_student(id):
+
+    conn = get_db()
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        roll = request.form["roll"]
+        attendance = request.form["attendance"]
+        marks = request.form["marks"]
+
+        conn.execute("""
+            UPDATE students
+            SET name=?, roll=?, attendance=?, marks=?
+            WHERE id=?
+        """, (name, roll, attendance, marks, id))
+
+        conn.commit()
+        conn.close()
+
+        flash("Student Updated Successfully!", "success")
+        return redirect(url_for("records"))
+
+    student = conn.execute(
+        "SELECT * FROM students WHERE id=?",
+        (id,)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template("edit_student.html", student=student)
+@app.route("/delete/<int:id>", methods=["POST"])
 def delete_student(id): 
     conn = get_db()
 
@@ -132,6 +244,31 @@ def delete_student(id):
     flash("Student Deleted Successfully!", "success")
 
     return redirect(url_for("records"))
+@app.route("/student/<int:id>")
+def student_detail(id):
+
+    conn = get_db()
+
+    student = conn.execute(
+        "SELECT * FROM students WHERE id=?",
+        (id,)
+    ).fetchone()
+
+    conn.close()
+
+    if student is None:
+        flash("Student Not Found!", "danger")
+        return redirect(url_for("records"))
+
+    return render_template("student_detail.html", student=student)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Logged Out Successfully!", "success")
+    return redirect(url_for("home"))
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html"), 404
@@ -139,82 +276,4 @@ def page_not_found(error):
 
 if __name__ == "__main__":
     init_db()
-=======
-from flask import Flask, render_template, request, redirect, url_for,redirect,flash
-
-app = Flask(__name__)
-app.secret_key = 'collegeportal'
-
-students = [
-    {
-        "name": "Dipak Madane",
-        "roll": 101,
-        "attendance": "92%",
-        "marks": 85
-    },
-    {
-        "name": "Prisha Madane",
-        "roll": 102,
-        "attendance": "95%",
-        "marks": 90
-    },
-    {
-        "name": "Vedansh Madane",
-        "roll": 103,
-        "attendance": "88%",
-        "marks": 78
-    },
-    {
-        "name": "Devansh Madane",
-        "roll": 104,
-        "attendance": "97%",
-        "marks": 94
-    },
-    {
-        "name": "Aarav Madane",
-        "roll": 105,
-        "attendance": "90%",
-        "marks": 82
-    }
-]
-@app.route("/add", methods=["GET", "POST"])
-def add_student():
-
-
-    if request.method == "POST":
-
-        name = request.form["name"]
-        roll = request.form["roll"]
-        attendance = request.form["attendance"]
-        marks = request.form["marks"]
-
-        if not name or not roll or not attendance or not marks:
-            flash("All fields are required!", "danger")
-            return redirect(url_for("add_student"))
-
-        students.append({
-            "name": name,
-            "roll": roll,
-            "attendance": attendance,
-            "marks": marks
-        })
-
-        flash("Student Added Successfully!", "success")
-
-        return redirect(url_for("records"))
-
-    return render_template("add_student.html")
-@app.route("/")
-def home():
-    return render_template("home.html")
-
-@app.route("/records")
-def records():
-    return render_template("record.html", students=students)
-@app.route("/about")
-def about():    
-    return render_template("about.html")
-
-if __name__ == "__main__":
->>>>>>> 392ac851567b5a4f1fc1ec05baea01d7378eefd4
     app.run(debug=True)

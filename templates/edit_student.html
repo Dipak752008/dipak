@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow p-4">
+
+<h2 class="text-center text-warning">
+    ✏️ Edit Student
+</h2>
+
+<form method="POST">
+
+<label>Name</label>
+<input
+type="text"
+name="name"
+class="form-control mb-3"
+value="{{ student.name }}">
+
+<label>Roll No</label>
+<input
+type="text"
+name="roll"
+class="form-control mb-3"
+value="{{ student.roll }}">
+
+<label>Attendance</label>
+<input
+type="text"
+name="attendance"
+class="form-control mb-3"
+value="{{ student.attendance }}">
+
+<label>Marks</label>
+<input
+type="number"
+name="marks"
+class="form-control mb-3"
+value="{{ student.marks }}">
+
+<button class="btn btn-success w-100">
+    Update Student
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -44,7 +44,29 @@
        href="{{ url_for('add_student') }}">
        ➕ Add Student
     </a>
+   {% if session.get("username") %}
 
+<span class="text-white me-2">
+    Welcome, {{ session["username"] }}
+</span>
+
+<a class="btn btn-danger btn-sm"
+   href="{{ url_for('logout') }}">
+   Logout
+</a>
+{% else %}
+
+<a class="btn btn-outline-light btn-sm"
+   href="{{ url_for('login') }}">
+   Login
+</a>
+
+<a class="btn btn-warning btn-sm"
+   href="{{ url_for('register') }}">
+   Register
+</a>
+
+{% endif %}
 </div>
 
       <form class="d-flex"
