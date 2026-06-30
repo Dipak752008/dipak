@@ -20,10 +20,9 @@ def init_db():
     conn.execute("""
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            roll TEXT NOT NULL,
-            attendance TEXT NOT NULL,
-            marks INTEGER NOT NULL
+            username TEXT UNIQUE NOT NULL,
+                 password TEXT NOT NULL,
+                 role TEXT NOT NULL
         )
     """)
 
@@ -72,24 +71,35 @@ def records():
 
     conn = get_db()
 
+    # Attendance dropdown ke liye unique values
+    attendances = conn.execute("""
+        SELECT DISTINCT attendance
+        FROM students
+        ORDER BY attendance
+    """).fetchall()
+
     query = "SELECT * FROM students WHERE 1=1"
     params = []
 
+    # Search
     if search:
         query += " AND name LIKE ?"
         params.append("%" + search + "%")
 
+    # Attendance Filter
     if attendance:
         query += " AND attendance = ?"
         params.append(attendance)
 
-    students = conn.execute(  query,  params ).fetchall()
+    students = conn.execute(query, params).fetchall()
 
     conn.close()
 
     return render_template(
         "record.html",
-        students=students
+        students=students,
+        attendances=attendances,
+        selected_attendance=attendance
     )
 # About Page
 @app.route("/about")
@@ -119,8 +129,8 @@ def register():
         hashed = generate_password_hash(password)
 
         conn.execute(
-            "INSERT INTO users(username, password) VALUES (?, ?)",
-            (username, hashed)
+            "INSERT INTO users(username, password,role) VALUES (?, ?,?)",
+            (username, hashed,"student")
         )
 
         conn.commit()
@@ -151,7 +161,8 @@ def login():
 
         if user and check_password_hash(user["password"], password):
 
-            session["username"] = username
+            session["username"] = user["username"]
+            session["role"]=user["role"]
 
             flash("Login Successful!", "success")
 
@@ -165,6 +176,9 @@ def login():
 # Add Student
 @app.route("/add", methods=["GET", "POST"])
 def add_student():
+    if session.get("role") !="admin":
+        flash("!Access Denied!","Danger")
+        return redirect(url_for("home"))
 
     if request.method == "POST":
 
@@ -200,6 +214,10 @@ def add_student():
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_student(id):
 
+    if session.get("role")!="admin":
+        flash("Access Denied!","danger")
+        return redirect(url_for("home"))
+
     conn = get_db()
 
     if request.method == "POST":
@@ -231,6 +249,10 @@ def edit_student(id):
     return render_template("edit_student.html", student=student)
 @app.route("/delete/<int:id>", methods=["POST"])
 def delete_student(id): 
+    if session.get("role")!="admin":
+        flash("Access Denied!","danger")
+        return redirect(url_for("home"))
+
     conn = get_db()
 
     conn.execute(

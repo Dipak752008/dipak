@@ -40,10 +40,14 @@
        About
     </a>
 
-    <a class="btn btn-success btn-sm"
-       href="{{ url_for('add_student') }}">
-       ➕ Add Student
-    </a>
+    {% if session.get("role") == "admin" %}
+
+<a class="btn btn-success btn-sm"
+href="{{ url_for('add_student') }}">
+➕ Add Student
+</a>
+
+{% endif %}
    {% if session.get("username") %}
 
 <span class="text-white me-2">
