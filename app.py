@@ -12,7 +12,7 @@ def get_db():
     return conn
 
 
-# Create Table
+# Create Table 
 def init_db():
     conn = get_db()
 
@@ -20,9 +20,10 @@ def init_db():
     conn.execute("""
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-                 password TEXT NOT NULL,
-                 role TEXT NOT NULL
+            name TEXT NOT NULL,
+            roll TEXT UNIQUE NOT NULL,
+            attendance INTEGER NOT NULL,
+            marks INTEGER NOT NULL
         )
     """)
 
@@ -31,13 +32,13 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            role TEXT NOT NULL
         )
     """)
 
     conn.commit()
     conn.close()
-
 
 # Home Page
 @app.route("/")
@@ -128,16 +129,20 @@ def register():
 
         hashed = generate_password_hash(password)
 
+        # Agar users table khali hai to first user admin banega
+        total_users = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+
+        role = "admin" if total_users == 0 else "student"
+
         conn.execute(
-            "INSERT INTO users(username, password,role) VALUES (?, ?,?)",
-            (username, hashed,"student")
+            "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
+            (username, hashed, role)
         )
 
         conn.commit()
         conn.close()
 
-        flash("Registration Successful!", "success")
-
+        flash("Registration Successful! Please Login.", "success")
         return redirect(url_for("login"))
 
     return render_template("register.html")
