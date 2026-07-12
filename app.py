@@ -1,8 +1,18 @@
+
+from dotenv import load_dotenv
+load_dotenv()
+import os
+#Sprint(os.getenv("GROQ_API_KEY"))
+from groq import Groq
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = "collegeportal"
+
+client =Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
 
 # Database Connection
@@ -146,6 +156,46 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
+
+@app.route("/ai_tips", methods=["GET", "POST"])
+def ai_tips():
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        marks = request.form["marks"]
+        subject = request.form["subject"]
+
+        prompt = f"""
+Student Name: {name}
+Subject: {subject}
+Marks: {marks}/100
+
+Give exactly 5 practical study tips in numbered points.
+"""
+
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        )
+
+        tip = response.choices[0].message.content
+
+        return render_template(
+            "ai_result.html",
+            name=name,
+            marks=marks,
+            subject=subject,
+    
+            tip=tip
+        )
+
+    return render_template("ai_tips.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
