@@ -1,6 +1,8 @@
+
 from dotenv import load_dotenv
-load_dotenv()  # Load environment variables from .env file
+load_dotenv()
 import os
+#Sprint(os.getenv("GROQ_API_KEY"))
 from groq import Groq
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash, session
@@ -9,6 +11,10 @@ app = Flask(__name__)
 app.secret_key = "collegeportal"
 client = Groq(
 api_key=os.getenv("GROQ_API_KEY")
+)
+
+client =Groq(
+    api_key=os.getenv("GROQ_API_KEY")
 )
 
 

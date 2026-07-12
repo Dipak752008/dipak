@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>🤖 AI Study Tips Generator</h2>
+            <p class="mb-0">Get Smart Study Tips with Groq AI</p>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">Student Name</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subject</label>
+                    <input type="text" class="form-control" name="subject" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Marks</label>
+                    <input type="number" class="form-control" name="marks" min="0" max="100" required>
+                </div>
+
+                <button class="btn btn-success w-100">
+                    🚀 Generate AI Tips
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
