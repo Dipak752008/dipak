@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">📢 College Notice Board</h1>
+        <p class="text-muted">Latest announcements for students</p>
+    </div>
+
+    {% for notice in notices %}
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between">
+            <h5 class="mb-0">📌 {{ notice.title }}</h5>
+            <span>📅 {{ notice.date }}</span>
+        </div>
+
+        <div class="card-body">
+            <p class="card-text fs-5">
+                {{ notice.message }}
+            </p>
+
+            <span class="badge bg-success">New</span>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

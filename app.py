@@ -160,6 +160,37 @@ def register():
 
     return render_template("register.html")
 
+@app.route("/notice")
+def notice():
+    notices = [
+        {
+            "title": "Semester Exam",
+            "date": "15 July 2026",
+            "message": "Semester examination will start from 15 July."
+        },
+        {
+            "title": "Holiday",
+            "date": "20 July 2026",
+            "message": "College will remain closed on Guru Purnima."
+        },
+        {
+            "title": "Project Submission",
+            "date": "25 July 2026",
+            "message": "Submit your final project before 25 July."
+        },
+        {
+            "title": "Sports Day",
+            "date": "30 July 2026",
+            "message": "Annual sports day will be held on 30 July."
+        },
+        {
+            "title": "Traditional Day",
+            "date": "5 August 2026",
+            "message": "Annual traditional day will be celebrated on 5 August."
+        }
+    ]
+    return render_template("notice.html", notices=notices)
+
 @app.route("/ai_tips", methods=["GET", "POST"])
 def ai_tips():
 
