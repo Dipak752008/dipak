@@ -111,7 +111,7 @@ def records():
     conn.close()
 
     return render_template(
-        "record.html",
+        "record1.html",
         students=students,
         attendances=attendances,
         selected_attendance=attendance
