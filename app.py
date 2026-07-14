@@ -37,6 +37,7 @@ def init_db():
             roll TEXT UNIQUE NOT NULL,
             attendance INTEGER NOT NULL,
             marks INTEGER NOT NULL
+        
         )
     """)
 
@@ -70,7 +71,7 @@ def home():
     conn.close()
 
     return render_template(
-        "home.html",
+        "home1.html",
         students=students,
         total=total
     )
@@ -110,7 +111,7 @@ def records():
     conn.close()
 
     return render_template(
-        "record.html",
+        "record.html1",
         students=students,
         attendances=attendances,
         selected_attendance=attendance
@@ -252,7 +253,7 @@ def login():
             session["username"] = user["username"]
             session["role"]=user["role"]
 
-            flash("Login Successful!", "success")
+            flash("Login Successful!🎉", "success")
 
             return redirect(url_for("home"))
 

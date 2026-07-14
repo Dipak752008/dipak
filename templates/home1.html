@@ -1,0 +1,464 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+.hero-banner{
+background:linear-gradient(135deg,#4f46e5,#2563eb,#06b6d4);
+border-radius:20px;
+overflow:hidden;
+position:relative;
+padding: 50px;;
+box-shadow:0 15px 35px rgba(0,0,0,.20);
+}
+
+.hero-banner::before{
+content:"";
+position:absolute;
+left:-120px;
+bottom:-120px;
+width:350px;
+height:350px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+}
+
+.hero-banner::after{
+content:"";
+position:absolute;
+right:-80px;
+top:-80px;
+width:220px;
+height:220px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+}
+
+.hero-title{
+font: size 50px;;
+font-weight:700;
+color:white;
+}
+
+.hero-sub{
+font: size 20px;x;
+color:#f8f9fa;
+margin-top:8px;
+}
+
+.hero-img{
+width: 200px;;
+animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+.dashboard-card{
+background:#fff;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.12);
+transition:.4s;
+overflow:hidden;
+position:relative;
+}
+
+.dashboard-card:hover{
+transform:translateY(-8px);
+}
+
+.feature-card{
+transition:.4s;
+}
+
+.feature-card:hover{
+transform:translateY(-8px) scale(1.02);
+}
+
+</style>
+
+<div class="container mt-4">
+
+<div class="hero-banner">
+
+<div class="row align-items-center">
+
+<div class="col-lg-8">
+
+<h2 class="hero-title">
+🎓 College Smart Portal
+</h2>
+
+<p class="hero-sub">
+Manage Students, Attendance, Marks & Records Easily
+</p>
+
+<h3 class="text-warning mt-4">
+👋 Welcome,
+{{ session.get("username","Guest") }}
+</h3>
+
+</div>
+
+<div class="col-lg-4 text-center">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+class="hero-img img-fluid">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- Quick Buttons -->
+
+<div class="text-center my-4">
+
+{% if session.get("role")=="admin" %}
+<a href="{{ url_for('add_student') }}"
+class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow m-2">
+➕ Add Student
+</a>
+{% endif %}
+
+<a href="{{ url_for('records') }}"
+class="btn btn-primary btn-lg px-4 py-2 rounded-pill shadow m-2">
+📋 Records
+</a>
+
+<a href="{{ url_for('notice') }}"
+class="btn btn-warning btn-lg px-4 py-2 rounded-pill shadow m-2 text-white">
+📢 Notice
+</a>
+
+<a href="{{ url_for('ai_tips') }}"
+class="btn btn-info btn-lg px-4 py-2 rounded-pill shadow m-2 text-white">
+🤖 AI Study Tips
+</a>
+
+</div>
+
+<!-- Portal Features -->
+
+<div class="container my-5">
+
+<div class="text-center mb-5">
+
+<h2 class="fw-bold display-6">
+⭐ Portal Features
+</h2>
+
+<div style="width:120px;height:5px;background:linear-gradient(to right,#2563eb,#7c3aed,#06b6d4);margin:auto;border-radius:10px;"></div>
+
+<p class="text-muted mt-3 fs-5">
+Everything you need to manage your college efficiently.
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<!-- Student Card -->
+
+<div class="col-lg-4">
+
+<div class="card feature-card border-0 shadow-lg rounded-4 h-100">
+
+<div class="card-body text-center p-4">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135789.png"
+class="img-fluid mb-3"
+style="height:120px;">
+
+<h4 class="fw-bold">
+Student Management
+</h4>
+
+<p class="text-muted">
+Add, edit, delete and manage student records with just a few clicks.
+</p>
+
+<a href="{{ url_for('records') }}"
+class="btn btn-primary rounded-pill px-4">
+Explore →
+</a>
+
+</div>
+
+</div>
+
+</div>
+<!-- Attendance Card -->
+
+<div class="col-lg-4">
+
+<div class="card feature-card border-0 shadow-lg rounded-4 h-100">
+
+<div class="card-body text-center p-4">
+
+<img src="https://cdn-icons-png.flaticon.com/512/2995/2995620.png"
+class="img-fluid mb-3"
+style="height:120px;">
+
+<h4 class="fw-bold">
+Attendance & Marks
+</h4>
+
+<p class="text-muted">
+Track attendance, marks and academic performance in one place with an easy dashboard.
+</p>
+
+<a href="{{ url_for('records') }}"
+class="btn btn-success rounded-pill px-4">
+View Records →
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- AI Study Tips Card -->
+
+<div class="col-lg-4">
+
+<div class="card feature-card border-0 shadow-lg rounded-4 h-100">
+
+<div class="card-body text-center p-4">
+
+<img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
+class="img-fluid mb-3"
+style="height:120px;">
+
+<h4 class="fw-bold">
+AI Study Tips
+</h4>
+
+<p class="text-muted">
+Get smart AI-powered study suggestions, learning tips and exam preparation guidance.
+</p>
+
+<a href="{{ url_for('ai_tips') }}"
+class="btn btn-info text-white rounded-pill px-4">
+Try AI →
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- Why Choose Our Portal -->
+
+<div class="container my-5">
+
+<div class="p-5 rounded-4 shadow-lg"
+style="background:linear-gradient(135deg,#4f46e5,#2563eb,#06b6d4);">
+
+<div class="text-center text-white mb-5">
+
+<h2 class="fw-bold">
+🚀 Why Choose College Smart Portal?
+</h2>
+
+<p class="fs-5">
+Fast • Secure • Easy to Use • AI Powered
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="bg-white rounded-4 p-4 text-center h-100">
+
+<div style="font-size:55px;">⚡</div>
+
+<h5 class="fw-bold mt-3">
+Fast Access
+</h5>
+
+<p class="text-muted mb-0">
+Quickly manage all student records in one place.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="bg-white rounded-4 p-4 text-center h-100">
+
+<div style="font-size:55px;">🔒</div>
+
+<h5 class="fw-bold mt-3">
+Secure Data
+</h5>
+
+<p class="text-muted mb-0">
+Student information is organized and protected.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="bg-white rounded-4 p-4 text-center h-100">
+
+<div style="font-size:55px;">📱</div>
+
+<h5 class="fw-bold mt-3">
+Responsive
+</h5>
+
+<p class="text-muted mb-0">
+Works smoothly on mobile, tablet and desktop.
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="bg-white rounded-4 p-4 text-center h-100">
+
+<div style="font-size:55px;">🤖</div>
+
+<h5 class="fw-bold mt-3">
+AI Support
+</h5>
+
+<p class="text-muted mb-0">
+Get smart study tips and learning suggestions instantly.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<!-- Latest Updates -->
+
+<div class="container my-5">
+
+<div class="row g-4">
+
+<div class="col-lg-8">
+
+<div class="card border-0 shadow-lg rounded-4">
+
+<div class="card-body p-4">
+
+<h3 class="fw-bold text-primary">
+📢 Latest Updates
+</h3>
+
+<hr>
+
+<ul class="list-group list-group-flush">
+
+<li class="list-group-item">
+✅ New Student Registration Available
+</li>
+
+<li class="list-group-item">
+📚 Semester Exam Schedule Updated
+</li>
+
+<li class="list-group-item">
+🤖 AI Study Tips Added
+</li>
+
+<li class="list-group-item">
+🎓 Welcome to College Smart Portal
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="card border-0 shadow-lg rounded-4 text-center">
+
+<div class="card-body p-4">
+
+<h2>🏆</h2>
+
+<h4 class="fw-bold">
+College Smart Portal
+</h4>
+
+<p class="text-muted">
+Manage Students, Attendance, Marks and Notices with a beautiful dashboard.
+</p>
+
+<h5 class="text-success">
+✔️ Easy
+</h5>
+
+<h5 class="text-primary">
+✔️ Secure
+</h5>
+
+<h5 class="text-warning">
+✔️ Modern
+</h5>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Footer -->
+
+<footer class="mt-5">
+
+<div class="container-fluid text-center text-white py-4 rounded-top-4"
+style="background:linear-gradient(135deg,#4f46e5,#2563eb,#06b6d4);">
+
+<h4 class="fw-bold">
+🎓 College Smart Portal
+</h4>
+
+<p class="mb-2">
+Made with ❤️ using Flask, Bootstrap & SQLite
+</p>
+
+<p class="mb-0">
+© 2026 All Rights Reserved
+</p>
+
+</div>
+
+</footer>
+
+{% endblock %}

@@ -39,6 +39,15 @@ type="number"
 name="marks"
 class="form-control mb-3"
 value="{{ student.marks }}">
+<label class="form-label">🏫 Branch</label>
+<select name="branch" class="form-select mb-3">
+    <option value="Computer Engineering" {% if student.branch == "Computer Engineering" %}selected{% endif %}>💻 Computer Engineering</option>
+    <option value="Mechanical Engineering" {% if student.branch == "Mechanical Engineering" %}selected{% endif %}>⚙️ Mechanical Engineering</option>
+    <option value="Civil Engineering" {% if student.branch == "Civil Engineering" %}selected{% endif %}>🏗️ Civil Engineering</option>
+    <option value="Electrical Engineering" {% if student.branch == "Electrical Engineering" %}selected{% endif %}>⚡ Electrical Engineering</option>
+    <option value="Electronics & Telecommunication" {% if student.branch == "Electronics & Telecommunication" %}selected{% endif %}>📡 Electronics & Telecommunication</option>
+    <option value="Artificial Intelligence & Data Science" {% if student.branch == "Artificial Intelligence & Data Science" %}selected{% endif %}>🤖 Artificial Intelligence & Data Science</option>
+</select>
 
 <button class="btn btn-success w-100">
     Update Student
