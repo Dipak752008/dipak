@@ -2,34 +2,190 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<style>
 
-<div class="card shadow p-4">
+body{
+    background:linear-gradient(135deg,#1d4ed8,#7c3aed);
+    min-height:100vh;
+}
 
-<h2 class="text-center">🔐 Login</h2>
+.login-box{
+    max-width:520px;
+    margin:40px auto;
+}
+
+.login-card{
+    background:#fff;
+    border-radius:25px;
+    padding:40px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.login-icon{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    margin:auto;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+
+.login-title{
+    text-align:center;
+    font-weight:bold;
+    margin-top:20px;
+    font-size:38px;
+}
+
+.line{
+    width:90px;
+    height:4px;
+    background:#3b82f6;
+    margin:auto;
+    border-radius:20px;
+}
+.input-group{
+    margin-top:20px;
+}
+
+.input-group-text{
+    background:#f8f9fa;
+    border-right:none;
+    border-radius:12px 0 0 12px;
+}
+
+.form-control{
+    height:55px;
+    border-left:none;
+    border-radius:0 12px 12px 0;
+    box-shadow:none !important;
+}
+
+.form-control:focus{
+    border-color:#3b82f6;
+}
+
+.extra{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:18px 0;
+    font-size:15px;
+}
+
+.extra a{
+    text-decoration:none;
+}
+
+.login-btn{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    transform:translateY(-3px);
+}
+
+</style>
+
+<div class="login-box">
+<div class="login-card">
+    <div class="login-icon">
+    🔒
+</div>
+
+<h2 class="login-title">Login</h2>
+
+<div class="line mb-4"></div>
 
 <form method="POST">
 
-<input type="text"
-name="username"
-class="form-control mb-3"
-placeholder="Username"
-required>
+<div class="input-group">
+    <span class="input-group-text">👤</span>
+    <input type="text"
+           name="username"
+           class="form-control"
+           placeholder="Username"
+           required>
+</div>
 
-<input type="password"
-name="password"
-class="form-control mb-3"
-placeholder="Password"
-required>
+<div class="input-group">
+    <span class="input-group-text">🔑</span>
+    <input type="password"
+           name="password"
+           class="form-control"
+           placeholder="Password"
+           required>
+</div>
 
-<button class="btn btn-primary w-100">
-Login
+<div class="extra">
+    <div>
+        <input type="checkbox">
+        Remember Me
+    </div>
+
+    <a href="#">Forgot Password?</a>
+</div>
+
+<button class="login-btn">
+    ➜ Login
 </button>
+
+<hr>
+
+<p class="text-center text-muted">
+    or continue with
+</p>
+<div class="row g-2">
+
+    <div class="col-6">
+        <button type="button"
+                class="btn btn-outline-danger w-100">
+            🌐 Google
+        </button>
+    </div>
+
+    <div class="col-6">
+        <button type="button"
+                class="btn btn-outline-primary w-100">
+            👨‍💼 Admin Login
+        </button>
+    </div>
+
+</div>
+
+<div class="text-center mt-4">
+
+    <p class="mb-2">
+        Don't have an account?
+        <a href="{{ url_for('register') }}">
+            Register Here →
+        </a>
+    </p>
+
+</div>
 
 </form>
 
 </div>
-
 </div>
+
+<footer class="text-center text-white mt-4 mb-3">
+
+    📖 "Education is the key to Success"
+
+</footer>
 
 {% endblock %}
