@@ -1,4 +1,3 @@
-
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -37,6 +36,7 @@ def init_db():
             roll TEXT UNIQUE NOT NULL,
             attendance INTEGER NOT NULL,
             marks INTEGER NOT NULL
+            
         
         )
     """)
@@ -70,11 +70,7 @@ def home():
 
     conn.close()
 
-    return render_template(
-        "home1.html",
-        students=students,
-        total=total
-    )
+    return render_template( "home1.html", students=students, total=total)
 
 
 # Records Page
@@ -110,12 +106,8 @@ def records():
 
     conn.close()
 
-    return render_template(
-        "record1.html",
-        students=students,
-        attendances=attendances,
-        selected_attendance=attendance
-    )
+    return render_template( "record1.html",students=students, attendances=attendances,selected_attendance=attendance )
+    
 # About Page
 @app.route("/about")
 def about():
