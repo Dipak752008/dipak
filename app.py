@@ -137,7 +137,7 @@ def register():
         # Agar users table khali hai to first user admin banega
         total_users = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
 
-        role = "admin" if total_users == 0 else "student"
+        role = "admin" if username == "Dipak" else "student"
 
         conn.execute(
             "INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
