@@ -385,6 +385,46 @@ def student_detail(id):
         return redirect(url_for("records"))
 
     return render_template("student_detail.html", student=student)
+@app.route("/branches")
+def branches():
+
+    conn = get_db()
+
+    computer = conn.execute(
+        "SELECT COUNT(*) FROM students WHERE branch='Computer Engineering'"
+    ).fetchone()[0]
+
+    mechanical = conn.execute(
+        "SELECT COUNT(*) FROM students WHERE branch='Mechanical Engineering'"
+    ).fetchone()[0]
+
+    civil = conn.execute(
+        "SELECT COUNT(*) FROM students WHERE branch='Civil Engineering'"
+    ).fetchone()[0]
+
+    electrical = conn.execute(
+        "SELECT COUNT(*) FROM students WHERE branch='Electrical Engineering'"
+    ).fetchone()[0]
+
+    entc = conn.execute(
+        "SELECT COUNT(*) FROM students WHERE branch='Electronics & Telecommunication'"
+    ).fetchone()[0]
+
+    ai = conn.execute(
+        "SELECT COUNT(*) FROM students WHERE branch='Artificial Intelligence & Data Science'"
+    ).fetchone()[0]
+
+    conn.close()
+
+    return render_template(
+        "branches.html",
+        computer=computer,
+        mechanical=mechanical,
+        civil=civil,
+        electrical=electrical,
+        entc=entc,
+        ai=ai
+    )
 
 @app.route("/logout")
 def logout():

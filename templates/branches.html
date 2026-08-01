@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:linear-gradient(135deg,#3f7dc5,#c8d2dc,#431517);
+    min-height:100vh;
+}
+
+.page-title{
+    text-align:center;
+    margin:35px 0;
+}
+
+.page-title h1{
+    font-weight:700;
+    color:#2563eb;
+}
+
+.page-title p{
+    color:#6c757d;
+}
+
+.branch-card{
+    background:white;
+    border:none;
+    border-radius:22px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+    transition:.35s;
+    margin-bottom:25px;
+}
+
+.branch-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,.18);
+}
+
+.branch-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.branch-name{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.student-count{
+    font-size:42px;
+    font-weight:bold;
+    color:#2563eb;
+}
+
+.badge{
+    font-size:14px;
+    padding:8px 15px;
+    border-radius:20px;
+}
+
+.btn-view{
+    margin-top:20px;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+.progress{
+    height:10px;
+    border-radius:20px;
+}
+
+</style>
+
+<div class="container">
+
+<div class="page-title">
+
+<h1>🏫 Branch Dashboard</h1>
+
+<p>Available Engineering Branches</p>
+
+</div>
+
+<div class="row">
+
+<!-- Computer -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="branch-card">
+
+<div class="branch-icon">💻</div>
+
+<div class="branch-name">
+Computer Engineering
+</div>
+
+<div class="student-count">
+{{ computer }}
+</div>
+
+<span class="badge bg-primary">
+Students
+</span>
+
+<div class="progress mt-3">
+<div class="progress-bar bg-primary"
+style="width:85%">
+</div>
+</div>
+
+<a href="/record"
+class="btn btn-primary w-100 btn-view">
+
+View Students
+
+</a>
+
+</div>
+
+</div>
+
+<!-- Mechanical -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="branch-card">
+
+<div class="branch-icon">⚙️</div>
+
+<div class="branch-name">
+Mechanical Engineering
+</div>
+
+<div class="student-count">
+{{ mechanical }}
+</div>
+
+<span class="badge bg-warning text-dark">
+Students
+</span>
+
+<div class="progress mt-3">
+<div class="progress-bar bg-warning"
+style="width:70%">
+</div>
+</div>
+
+<a href="/record"
+class="btn btn-warning w-100 btn-view">
+
+View Students
+
+</a>
+
+</div>
+
+</div>
+
+<!-- Civil -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="branch-card">
+
+<div class="branch-icon">🏗️</div>
+
+<div class="branch-name">
+Civil Engineering
+</div>
+
+<div class="student-count">
+{{ civil }}
+</div>
+
+<span class="badge bg-success">
+Students
+</span>
+
+<div class="progress mt-3">
+<div class="progress-bar bg-success"
+style="width:65%">
+</div>
+</div>
+
+<a href="/record"
+class="btn btn-success w-100 btn-view">
+
+View Students
+
+</a>
+
+</div>
+
+</div>
+<!-- Electrical -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="branch-card">
+
+<div class="branch-icon">⚡</div>
+
+<div class="branch-name">
+Electrical Engineering
+</div>
+
+<div class="student-count">
+{{ electrical }}
+</div>
+
+<span class="badge bg-danger">
+Students
+</span>
+
+<div class="progress mt-3">
+<div class="progress-bar bg-danger"
+style="width:75%">
+</div>
+</div>
+
+<a href="/record"
+class="btn btn-danger w-100 btn-view">
+
+View Students
+
+</a>
+
+</div>
+
+</div>
+
+<!-- E&TC -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="branch-card">
+
+<div class="branch-icon">📡</div>
+
+<div class="branch-name">
+Electronics & Telecommunication
+</div>
+
+<div class="student-count">
+{{ entc }}
+</div>
+
+<span class="badge bg-info text-dark">
+Students
+</span>
+
+<div class="progress mt-3">
+<div class="progress-bar bg-info"
+style="width:80%">
+</div>
+</div>
+
+<a href="/record"
+class="btn btn-info w-100 btn-view">
+
+View Students
+
+</a>
+
+</div>
+
+</div>
+
+<!-- AI & DS -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="branch-card">
+
+<div class="branch-icon">🤖</div>
+
+<div class="branch-name">
+AI & Data Science
+</div>
+
+<div class="student-count">
+{{ ai }}
+</div>
+
+<span class="badge bg-success">
+Students
+</span>
+
+<div class="progress mt-3">
+<div class="progress-bar bg-success"
+style="width:95%">
+</div>
+</div>
+
+<a href="/record"
+class="btn btn-success w-100 btn-view">
+
+View Students
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
