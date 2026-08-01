@@ -2,43 +2,69 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<div class="container mt-5">
 
-<div class="card shadow">
+<div class="card shadow-lg border-0 rounded-4">
 
-<div class="card-body">
+<div class="card-header text-center text-white"
+style="background:linear-gradient(135deg,#0d6efd,#6610f2);">
 
-<h2>Add Student</h2>
+<h2>➕ Add New Student</h2>
 
-<form method="POST">
+<p class="mb-0">Fill all student details below</p>
 
-<div class="mb-3">
-<label>Name</label>
-<input type="text" name="name" class="form-control">
 </div>
 
-<div class="mb-3">
-<label>Roll No</label>
-<input type="text" name="roll" class="form-control">
+<div class="card-body p-4">
+
+<form method="POST" enctype="multipart/form-data">
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+<label class="form-label fw-bold">👤 Student Name</label>
+<input type="text" name="name" class="form-control" placeholder="Enter Student Name" required>
 </div>
 
-<div class="mb-3">
-<label>Attendance</label>
-<input type="text" name="attendance" class="form-control">
+<div class="col-md-6 mb-3">
+<label class="form-label fw-bold">🎫 Roll Number</label>
+<input type="text" name="roll" class="form-control" placeholder="Enter Roll Number" required>
 </div>
 
-<div class="mb-3">
-<label>Marks</label>
-<input type="number" name="marks" class="form-control">
+<div class="col-md-6 mb-3">
+<label class="form-label fw-bold">📊 Attendance (%)</label>
+<input type="number" name="attendance" class="form-control" min="0" max="100" placeholder="Attendance %" required>
 </div>
 
-<button class="btn btn-primary">
-    Add Student
+<div class="col-md-6 mb-3">
+<label class="form-label fw-bold">📈 Marks</label>
+<input type="number" name="marks" class="form-control" min="0" max="100" placeholder="Marks" required>
+</div>
+
+<div class="col-12 mb-4">
+<label class="form-label fw-bold">📷 Student Photo</label>
+<input type="file" name="photo" class="form-control" accept="image/*">
+<small class="text-muted">Upload passport size photo (JPG/PNG)</small>
+</div>
+
+</div>
+
+<div class="text-center">
+
+<button type="submit" class="btn btn-success btn-lg px-5">
+💾 Add Student
 </button>
+
+<a href="{{ url_for('records') }}" class="btn btn-secondary btn-lg px-5 ms-2">
+⬅️ Back
+</a>
+
+</div>
 
 </form>
 
 </div>
+
 </div>
 
 </div>

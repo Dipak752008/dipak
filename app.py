@@ -1,3 +1,4 @@
+from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -6,6 +7,9 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
+UPLOAD_FOLDER = "static/uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER,exist_ok=True)
 app.secret_key = "collegeportal"
 client = Groq(
 api_key=os.getenv("GROQ_API_KEY")
@@ -34,7 +38,8 @@ def init_db():
             name TEXT NOT NULL,
             roll TEXT UNIQUE NOT NULL,
             attendance INTEGER NOT NULL,
-            marks INTEGER NOT NULL
+            marks INTEGER NOT NULL,
+            photo TEXT
             
         
         )
@@ -266,6 +271,11 @@ def add_student():
         roll = request.form["roll"]
         attendance = request.form["attendance"]
         marks = request.form["marks"]
+        photo = request.files["photo"]
+        filename =""
+        if photo and photo.filename != "":
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
         # Validation
         if not name or not roll or not attendance or not marks:
@@ -277,10 +287,10 @@ def add_student():
         conn.execute(
             """
             INSERT INTO students
-            (name, roll, attendance, marks)
-            VALUES (?, ?, ?, ?)
+            (name, roll, attendance, marks,photo)
+            VALUES (?, ?, ?,?, ?)
             """,
-            (name, roll, attendance, marks)
+            (name, roll, attendance, marks,filename)
         )
 
         conn.commit()

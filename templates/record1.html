@@ -185,6 +185,7 @@ id="studentTable">
 <tr>
 
 <th>#</th>
+<th> 📸 Photo</th>
 
 <th>🎫 Roll No</th>
 
@@ -216,13 +217,24 @@ id="studentTable">
 </td>
 
 <td>
+    {% if student.photo %}
+        <img src="{{ url_for('static', filename='uploads/' + student.photo) }}"
+             width="55"
+             height="55"
+             class="rounded-circle border border-2 border-primary shadow"
+             style="object-fit:cover;">
+    {% else %}
+        <img src="{{ url_for('static', filename='default.png') }}"
+             width="55"
+             height="55"
+             class="rounded-circle border">
+    {% endif %}
+</td>
 
-<span class="badge bg-secondary">
-
-{{ student.roll }}
-
-</span>
-
+<td>
+    <span class="badge bg-secondary">
+        {{ student.roll }}
+    </span>
 </td>
 
 <td>
