@@ -2,16 +2,68 @@
 
 {% block content %}
 
+<style>
+
+body{
+    background:#f4f7fb;
+}
+
+.add-card{
+    max-width:700px;
+    margin:auto;
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.card-header{
+    background:linear-gradient(135deg,#4f46e5,#2563eb,#06b6d4);
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+.form-control,
+.form-select{
+    border-radius:12px;
+    padding:12px;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:0 0 10px rgba(37,99,235,.35);
+    border-color:#2563eb;
+}
+
+.btn-save{
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:12px;
+    font-size:18px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn-save:hover{
+    transform:translateY(-2px);
+}
+
+</style>
+
 <div class="container mt-5">
 
-<div class="card shadow-lg border-0 rounded-4">
+<div class="card add-card">
 
-<div class="card-header text-center text-white"
-style="background:linear-gradient(135deg,#0d6efd,#6610f2);">
+<div class="card-header">
 
 <h2>➕ Add New Student</h2>
 
-<p class="mb-0">Fill all student details below</p>
+<p class="mb-0">
+Fill all student details carefully.
+</p>
 
 </div>
 
@@ -19,47 +71,135 @@ style="background:linear-gradient(135deg,#0d6efd,#6610f2);">
 
 <form method="POST" enctype="multipart/form-data">
 
+<div class="mb-3">
+
+<label class="form-label fw-bold">
+👨‍🎓 Student Name
+</label>
+
+<input
+type="text"
+name="name"
+class="form-control"
+placeholder="Enter Student Name"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label fw-bold">
+🎫 Roll Number
+</label>
+
+<input
+type="text"
+name="roll"
+class="form-control"
+placeholder="Enter Roll Number"
+required>
+
+</div>
+
 <div class="row">
 
-<div class="col-md-6 mb-3">
-<label class="form-label fw-bold">👤 Student Name</label>
-<input type="text" name="name" class="form-control" placeholder="Enter Student Name" required>
-</div>
+<div class="col-md-6">
 
-<div class="col-md-6 mb-3">
-<label class="form-label fw-bold">🎫 Roll Number</label>
-<input type="text" name="roll" class="form-control" placeholder="Enter Roll Number" required>
-</div>
+<div class="mb-3">
 
-<div class="col-md-6 mb-3">
-<label class="form-label fw-bold">📊 Attendance (%)</label>
-<input type="number" name="attendance" class="form-control" min="0" max="100" placeholder="Attendance %" required>
-</div>
+<label class="form-label fw-bold">
+📊 Attendance %
+</label>
 
-<div class="col-md-6 mb-3">
-<label class="form-label fw-bold">📈 Marks</label>
-<input type="number" name="marks" class="form-control" min="0" max="100" placeholder="Marks" required>
-</div>
+<input
+type="number"
+name="attendance"
+class="form-control"
+placeholder="Attendance"
+required>
 
-<div class="col-12 mb-4">
-<label class="form-label fw-bold">📷 Student Photo</label>
-<input type="file" name="photo" class="form-control" accept="image/*">
-<small class="text-muted">Upload passport size photo (JPG/PNG)</small>
 </div>
 
 </div>
 
-<div class="text-center">
+<div class="col-md-6">
 
-<button type="submit" class="btn btn-success btn-lg px-5">
-💾 Add Student
+<div class="mb-3">
+
+<label class="form-label fw-bold">
+📝 Marks
+</label>
+
+<input
+type="number"
+name="marks"
+class="form-control"
+placeholder="Marks"
+required>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label fw-bold">
+🏫 Branch
+</label>
+
+<select name="branch" class="form-select" required>
+
+<option value="">Select Branch</option>
+
+<option value="Computer Engineering">
+💻 Computer Engineering
+</option>
+
+<option value="Mechanical Engineering">
+⚙️ Mechanical Engineering
+</option>
+
+<option value="Civil Engineering">
+🏗️ Civil Engineering
+</option>
+
+<option value="Electrical Engineering">
+⚡ Electrical Engineering
+</option>
+
+<option value="Electronics & Telecommunication">
+📡 Electronics & Telecommunication
+</option>
+
+<option value="Artificial Intelligence & Data Science">
+🤖 Artificial Intelligence & Data Science
+</option>
+
+</select>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label fw-bold">
+📷 Student Photo
+</label>
+
+<input
+type="file"
+name="photo"
+class="form-control"
+accept="image/*">
+
+</div>
+
+<button class="btn btn-save w-100">
+
+➕ Add Student
+
 </button>
-
-<a href="{{ url_for('records') }}" class="btn btn-secondary btn-lg px-5 ms-2">
-⬅️ Back
-</a>
-
-</div>
 
 </form>
 

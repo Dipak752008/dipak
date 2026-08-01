@@ -267,28 +267,12 @@ class="fw-bold text-decoration-none text-primary">
 </span>
 
 </td>
-<!-- Status -->
+<!-- branch -->
 
 <td>
-
-{% if student.marks >= 35 %}
-
-<span class="badge bg-success px-3 py-2">
-
-✅ Pass
-
-</span>
-
-{% else %}
-
-<span class="badge bg-danger px-3 py-2">
-
-❌ Fail
-
-</span>
-
-{% endif %}
-
+   <span class="badge bg-secondary">
+        {{ student.branch }}
+    </span>
 </td>
 
 <!-- Grade -->

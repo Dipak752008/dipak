@@ -39,6 +39,7 @@ def init_db():
             roll TEXT UNIQUE NOT NULL,
             attendance INTEGER NOT NULL,
             marks INTEGER NOT NULL,
+            branch TEXT NOT NULL,
             photo TEXT
             
         
@@ -272,6 +273,7 @@ def add_student():
         attendance = request.form["attendance"]
         marks = request.form["marks"]
         photo = request.files["photo"]
+        branch = request.form["branch"]
         filename =""
         if photo and photo.filename != "":
             filename = secure_filename(photo.filename)
@@ -287,10 +289,10 @@ def add_student():
         conn.execute(
             """
             INSERT INTO students
-            (name, roll, attendance, marks,photo)
-            VALUES (?, ?, ?,?, ?)
+            (name, roll, attendance, marks,branch,photo)
+            VALUES (?, ?, ?,?,?, ?)
             """,
-            (name, roll, attendance, marks,filename)
+            (name, roll, attendance, marks, branch, filename)
         )
 
         conn.commit()
@@ -304,11 +306,17 @@ def add_student():
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_student(id):
 
-    if session.get("role")!="admin":
-        flash("Access Denied!","danger")
+    if session.get("role") != "admin":
+        flash("Access Denied!", "danger")
         return redirect(url_for("home"))
 
     conn = get_db()
+
+    # Pehle student fetch karo
+    student = conn.execute(
+        "SELECT * FROM students WHERE id=?",
+        (id,)
+    ).fetchone()
 
     if request.method == "POST":
 
@@ -316,23 +324,27 @@ def edit_student(id):
         roll = request.form["roll"]
         attendance = request.form["attendance"]
         marks = request.form["marks"]
+        branch = request.form["branch"]
+
+        photo = request.files["photo"]
+
+        filename = student["photo"]
+
+        if photo and photo.filename != "":
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
         conn.execute("""
             UPDATE students
-            SET name=?, roll=?, attendance=?, marks=?
+            SET name=?, roll=?, attendance=?, marks=?, branch=?, photo=?
             WHERE id=?
-        """, (name, roll, attendance, marks, id))
+        """, (name, roll, attendance, marks, branch, filename, id))
 
         conn.commit()
         conn.close()
 
         flash("Student Updated Successfully!", "success")
         return redirect(url_for("records"))
-
-    student = conn.execute(
-        "SELECT * FROM students WHERE id=?",
-        (id,)
-    ).fetchone()
 
     conn.close()
 

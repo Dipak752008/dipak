@@ -10,7 +10,8 @@
     ✏️ Edit Student
 </h2>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data" >
+
 
 <label>Name</label>
 <input
@@ -39,6 +40,22 @@ type="number"
 name="marks"
 class="form-control mb-3"
 value="{{ student.marks }}">
+<div class="mb-3">
+    <label class="form-label">Current Photo</label><br>
+
+    {% if student.photo %}
+        <img src="{{ url_for('static', filename='uploads/' + student.photo) }}"
+             width="120"
+             class="rounded shadow mb-2">
+    {% else %}
+        <p class="text-muted">No Photo</p>
+    {% endif %}
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Change Photo</label>
+    <input type="file" name="photo" class="form-control" accept="image/*">
+</div>
 <label class="form-label">🏫 Branch</label>
 <select name="branch" class="form-select mb-3">
     <option value="Computer Engineering" {% if student.branch == "Computer Engineering" %}selected{% endif %}>💻 Computer Engineering</option>
