@@ -1,38 +1,125 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <style>
-    body{
-        background:linear-gradient(135deg,#e9adc1,#eeebeb);
-        min-height:100vh;
-    }
+
+body{
+    background:linear-gradient(135deg,#cb49a6,#dd8aa6);
+    min-height:100vh;
+}
+
+.notice-header{
+    background:linear-gradient(135deg,#0d6efd,#6f42c1);
+    color:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+    margin-bottom:40px;
+}
+
+.notice-card{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    transition:.35s;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+
+.notice-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(13,110,253,.25);
+}
+
+.notice-top{
+    background:linear-gradient(135deg,#0d6efd,#6610f2);
+    color:white;
+    padding:18px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.notice-body{
+    background:white;
+    padding:25px;
+}
+
+.notice-msg{
+    font-size:18px;
+    color:#444;
+    line-height:1.8;
+}
+
+.new-badge{
+    border-radius:50px;
+    padding:8px 16px;
+    font-size:14px;
+}
+
+.date-badge{
+    background:white;
+    color:#0d6efd;
+    padding:8px 15px;
+    border-radius:30px;
+    font-weight:bold;
+}
+
 </style>
 
 <div class="container mt-5">
 
-    <div class="text-center mb-4">
-        <h1 class="fw-bold text-primary">📢 College Notice Board</h1>
-        <p class="text-muted">Latest announcements for students</p>
-    </div>
+<div class="notice-header">
+<h1 class="fw-bold">📢 College Notice Board</h1>
+<p class="mb-0">Stay updated with the latest announcements</p>
+</div>
 
-    {% for notice in notices %}
+{% for notice in notices %}
 
-    <div class="card shadow-lg border-0 mb-4">
-        <div class="card-header bg-primary text-white d-flex justify-content-between">
-            <h5 class="mb-0">📌 {{ notice.title }}</h5>
-            <span>📅 {{ notice.date }}</span>
-        </div>
+<div class="notice-card mb-4">
 
-        <div class="card-body">
-            <p class="card-text fs-5">
-                {{ notice.message }}
-            </p>
+<div class="notice-top">
 
-            <span class="badge bg-success">New</span>
-        </div>
-    </div>
+<h4 class="mb-0">
+📌 {{ notice.title }}
+</h4>
 
-    {% endfor %}
+<span class="date-badge">
+📅 {{ notice.date }}
+</span>
+
+</div>
+<div class="notice-body">
+
+<p class="notice-msg">
+{{ notice.message }}
+</p>
+
+<div class="d-flex justify-content-between align-items-center">
+
+<span class="badge bg-success new-badge">
+🟢 New Notice
+</span>
+
+<span class="text-muted">
+🎓 College Smart Portal
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-warning text-center shadow p-4 rounded-4">
+<h4>📭 No Notices Available</h4>
+<p class="mb-0">New notices will appear here soon.</p>
+</div>
+
+{% endfor %}
 
 </div>
 
