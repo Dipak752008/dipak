@@ -118,6 +118,7 @@ def records():
 def about():
     return render_template("about.html")
 
+# Register page
 @app.route("/register", methods=["GET", "POST"])
 def register():
 
@@ -140,9 +141,8 @@ def register():
 
         hashed = generate_password_hash(password)
 
-        # Agar users table khali hai to first user admin banega
-        total_users = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
-
+        # Agar users ka naam dipak hoga to wo admin rahega
+       
         role = "admin" if username == "Dipak" else "student"
 
         conn.execute(
@@ -158,6 +158,7 @@ def register():
 
     return render_template("register.html")
 
+# Notice page 
 @app.route("/notice")
 def notice():
     notices = [
@@ -189,6 +190,7 @@ def notice():
     ]
     return render_template("notice.html", notices=notices)
 
+#Ai study tips page
 @app.route("/ai_tips", methods=["GET", "POST"])
 def ai_tips():
 
@@ -228,6 +230,7 @@ Give exactly 5 practical study tips in numbered points.
 
     return render_template("ai_tips.html")
 
+# Login page
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -259,7 +262,7 @@ def login():
     return render_template("login.html")
 
 
-# Add Student
+# Add Student page
 @app.route("/add", methods=["GET", "POST"])
 def add_student():
     if session.get("role") !="admin":
@@ -303,6 +306,8 @@ def add_student():
         return redirect(url_for("records"))
 
     return render_template("add_student.html")
+
+#Edit student page
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_student(id):
 
@@ -349,6 +354,8 @@ def edit_student(id):
     conn.close()
 
     return render_template("edit_student.html", student=student)
+
+# Delete student record page
 @app.route("/delete/<int:id>", methods=["POST"])
 def delete_student(id): 
     if session.get("role")!="admin":
@@ -368,6 +375,8 @@ def delete_student(id):
     flash("Student Deleted Successfully!", "success")
 
     return redirect(url_for("records"))
+
+# View student recoeds page
 @app.route("/student/<int:id>")
 def student_detail(id):
 
@@ -385,6 +394,8 @@ def student_detail(id):
         return redirect(url_for("records"))
 
     return render_template("student_detail.html", student=student)
+
+# Branches page
 @app.route("/branches")
 def branches():
 
@@ -426,13 +437,14 @@ def branches():
         ai=ai
     )
 
+# Log out page
 @app.route("/logout")
 def logout():
     session.clear()
     flash("Logged Out Successfully!", "success")
     return redirect(url_for("home"))
 
-
+# Error handeled page
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html"), 404
