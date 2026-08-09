@@ -3,123 +3,229 @@
 {% block content %}
 
 <style>
-
 body{
-    background:linear-gradient(135deg,#cb49a6,#dd8aa6);
+    background:linear-gradient(135deg,#a0707a,#4710c8);
     min-height:100vh;
 }
 
-.notice-header{
-    background:linear-gradient(135deg,#0d6efd,#6f42c1);
-    color:white;
-    padding:40px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 15px 35px rgba(0,0,0,.2);
-    margin-bottom:40px;
+/* Main container */
+.notice-container{
+    max-width:950px;
+    margin:40px auto;
+    padding:0 15px;
 }
 
+/* Header */
+.notice-header{
+    text-align:center;
+    padding:30px 20px;
+    border-radius:25px;
+    color:white;
+    background:linear-gradient(135deg,#0d6efd,#6f42c1);
+    box-shadow:0 12px 30px rgba(70,70,200,.25);
+    margin-bottom:30px;
+}
+
+.notice-icon{
+    font-size:42px;
+}
+
+.notice-header h1{
+    font-weight:800;
+    margin:8px 0;
+}
+
+.notice-header p{
+    margin:0;
+    opacity:.9;
+}
+
+/* Notice card */
 .notice-card{
-    border:none;
-    border-radius:20px;
+    background:white;
+    border-radius:18px;
+    margin-bottom:18px;
     overflow:hidden;
-    transition:.35s;
-    box-shadow:0 10px 30px rgba(0,0,0,.12);
+    border:1px solid #e5e7eb;
+    box-shadow:0 7px 22px rgba(0,0,0,.08);
+    transition:.3s;
 }
 
 .notice-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 20px 40px rgba(13,110,253,.25);
+    transform:translateY(-5px);
+    box-shadow:0 15px 30px rgba(13,110,253,.18);
 }
 
+/* Card heading */
 .notice-top{
-    background:linear-gradient(135deg,#0d6efd,#6610f2);
+    padding:17px 20px;
     color:white;
-    padding:18px 22px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
-.notice-body{
-    background:white;
-    padding:25px;
-}
-
-.notice-msg{
+.notice-title{
     font-size:18px;
-    color:#444;
-    line-height:1.8;
+    font-weight:700;
 }
 
-.new-badge{
-    border-radius:50px;
-    padding:8px 16px;
-    font-size:14px;
-}
-
-.date-badge{
+.date{
     background:white;
-    color:#0d6efd;
-    padding:8px 15px;
-    border-radius:30px;
+    color:#2563eb;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
     font-weight:bold;
 }
 
+/* Body */
+.notice-body{
+    padding:20px;
+}
+
+.notice-message{
+    color:#555;
+    font-size:15px;
+    line-height:1.7;
+    margin-bottom:18px;
+}
+
+.notice-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.new{
+    background:#e8fff3;
+    color:#087f5b;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.portal{
+    color:#9ca3af;
+    font-size:12px;
+}
+
+/* Empty */
+.empty{
+    text-align:center;
+    background:white;
+    padding:45px 20px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.empty-icon{
+    font-size:45px;
+}
+
+.empty h3{
+    color:#374151;
+    font-weight:bold;
+}
+
+/* Mobile */
+@media(max-width:600px){
+
+    .notice-container{
+        margin-top:25px;
+    }
+
+    .notice-header h1{
+        font-size:27px;
+    }
+
+    .notice-top{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+
+    .notice-bottom{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+}
 </style>
 
-<div class="container mt-5">
 
-<div class="notice-header">
-<h1 class="fw-bold">📢 College Notice Board</h1>
-<p class="mb-0">Stay updated with the latest announcements</p>
-</div>
+<div class="notice-container">
 
-{% for notice in notices %}
+    <!-- Header -->
+    <div class="notice-header">
 
-<div class="notice-card mb-4">
+        <div class="notice-icon">📢</div>
 
-<div class="notice-top">
+        <h1>College Notice Board</h1>
 
-<h4 class="mb-0">
-📌 {{ notice.title }}
-</h4>
+        <p>
+            Stay updated with the latest college announcements
+        </p>
 
-<span class="date-badge">
-📅 {{ notice.date }}
-</span>
+    </div>
 
-</div>
-<div class="notice-body">
 
-<p class="notice-msg">
-{{ notice.message }}
-</p>
+    <!-- Notices -->
+    {% for notice in notices %}
 
-<div class="d-flex justify-content-between align-items-center">
+    <div class="notice-card">
 
-<span class="badge bg-success new-badge">
-🟢 New Notice
-</span>
+        <div class="notice-top">
 
-<span class="text-muted">
-🎓 College Smart Portal
-</span>
+            <div class="notice-title">
+                📌 {{ notice.title }}
+            </div>
 
-</div>
+            <div class="date">
+                📅 {{ notice.date }}
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="notice-body">
 
-{% else %}
+            <div class="notice-message">
+                {{ notice.message }}
+            </div>
 
-<div class="alert alert-warning text-center shadow p-4 rounded-4">
-<h4>📭 No Notices Available</h4>
-<p class="mb-0">New notices will appear here soon.</p>
-</div>
+            <div class="notice-bottom">
 
-{% endfor %}
+                <span class="new">
+                    🟢 New Notice
+                </span>
+
+                <span class="portal">
+                    🎓 College Smart Portal
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+
+        <div class="empty-icon">📭</div>
+
+        <h3>No Notices Available</h3>
+
+        <p class="text-muted">
+            New college notices will appear here soon.
+        </p>
+
+    </div>
+
+    {% endfor %}
 
 </div>
 

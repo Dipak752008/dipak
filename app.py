@@ -5,6 +5,7 @@ import os
 from groq import Groq
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+import math
 from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 UPLOAD_FOLDER = "static/uploads"
@@ -85,34 +86,85 @@ def records():
     search = request.args.get("search", "")
     attendance = request.args.get("attendance", "")
 
+    # Current page
+    page = request.args.get("page", 1, type=int)
+
+    # Ek page par kitne students
+    per_page = 5
+
     conn = get_db()
 
-    # Attendance dropdown ke liye unique values
+    # Attendance dropdown
     attendances = conn.execute("""
         SELECT DISTINCT attendance
         FROM students
         ORDER BY attendance
     """).fetchall()
 
+    # Base query
     query = "SELECT * FROM students WHERE 1=1"
-    params = []
+    count_query = "SELECT COUNT(*) FROM students WHERE 1=1"
 
-    # Search
+    params = []
+    count_params = []
+
+    # Search filter
     if search:
         query += " AND name LIKE ?"
-        params.append("%" + search + "%")
+        count_query += " AND name LIKE ?"
 
-    # Attendance Filter
+        params.append("%" + search + "%")
+        count_params.append("%" + search + "%")
+
+    # Attendance filter
     if attendance:
         query += " AND attendance = ?"
-        params.append(attendance)
+        count_query += " AND attendance = ?"
 
-    students = conn.execute(query, params).fetchall()
+        params.append(attendance)
+        count_params.append(attendance)
+
+    # Total students
+    total_students = conn.execute(
+        count_query,
+        count_params
+    ).fetchone()[0]
+
+    # Total pages
+    total_pages = (total_students + per_page - 1) // per_page
+
+    # Page ko valid rakho
+    if page < 1:
+        page = 1
+
+    if total_pages > 0 and page > total_pages:
+        page = total_pages
+
+    # Pagination offset
+    offset = (page - 1) * per_page
+
+    # Students for current page
+    query += " ORDER BY id DESC LIMIT ? OFFSET ?"
+
+    params.extend([per_page, offset])
+
+    students = conn.execute(
+        query,
+        params
+    ).fetchall()
 
     conn.close()
 
-    return render_template( "record1.html",students=students, attendances=attendances,selected_attendance=attendance )
-    
+    return render_template(
+        "record1.html",
+        students=students,
+        attendances=attendances,
+        selected_attendance=attendance,
+        search=search,
+        page=page,
+        total_pages=total_pages,
+        total_students=total_students
+    )
 # About Page
 @app.route("/about")
 def about():
