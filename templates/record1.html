@@ -111,6 +111,7 @@ class="img-fluid">
 
 <input
 type="text"
+name="search"
 id="searchInput"
 class="form-control form-control-lg rounded-pill shadow-sm"
 placeholder="Search Student Name or Roll No...">
@@ -439,24 +440,6 @@ No records match your search or attendance filter.
 
 </div>
 
-<script>
 
-document.getElementById("searchInput").addEventListener("keyup", function(){
-
-let search=this.value.toLowerCase();
-
-let rows=document.querySelectorAll("#studentTable tbody tr");
-
-rows.forEach(function(row){
-
-let text=row.innerText.toLowerCase();
-
-row.style.display=text.includes(search)?"":"none";
-
-});
-
-});
-
-</script>
 
 {% endblock %}
