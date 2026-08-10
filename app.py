@@ -15,12 +15,30 @@ app.secret_key = "collegeportal"
 client = Groq(
 api_key=os.getenv("GROQ_API_KEY")
 )
+def ask_ai(doubt):
 
-client =Groq(
-    api_key=os.getenv("GROQ_API_KEY")
-)
+    prompt = f"""
+You are an AI study assistant for a college student.
 
+Student's Doubt:
+{doubt}
 
+Explain the answer in simple and easy language.
+Give a clear explanation with examples if required.
+Keep the answer educational and concise.
+"""
+
+    response = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    return response.choices[0].message.content
 # Database Connection
 def get_db():
     conn = sqlite3.connect("myproject.db")
@@ -487,6 +505,22 @@ def branches():
         electrical=electrical,
         entc=entc,
         ai=ai
+    )
+@app.route("/ai_doubt", methods=["GET", "POST"])
+def ai_doubt():
+
+    answer = None
+
+    if request.method == "POST":
+
+        doubt = request.form.get("doubt")
+
+        if doubt:
+            answer = ask_ai(doubt)
+
+    return render_template(
+        "ai_doubt.html",
+        answer=answer
     )
 
 # Log out page
