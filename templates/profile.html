@@ -1,0 +1,828 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+/* ===== PROFILE PAGE ===== */
+
+.profile-page{
+    background:#151a23;
+    color:#fff;
+    min-height:100vh;
+    padding:40px 0 70px;
+    position:relative;
+    overflow:hidden;
+}
+
+/* Background Lines */
+
+.profile-page::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    repeating-radial-gradient(
+        ellipse at 10% 20%,
+        transparent 0px,
+        transparent 45px,
+        rgba(0,255,200,.10) 47px,
+        transparent 49px
+    );
+    opacity:.45;
+    pointer-events:none;
+}
+
+.profile-container{
+    max-width:1100px;
+    margin:auto;
+    position:relative;
+    z-index:2;
+    background:#1c222d;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+/* ===== HERO ===== */
+
+.profile-hero{
+    padding:65px 60px;
+    min-height:500px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:50px;
+}
+
+.hero-left{
+    flex:1;
+}
+
+.small-title{
+    color:#19d3ae;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.hero-left h1{
+    font-size:52px;
+    font-weight:800;
+    margin:10px 0;
+}
+
+.hero-left h1 span{
+    color:#19d3ae;
+}
+
+.hero-role{
+    font-size:23px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+.hero-description{
+    color:#b9c0ca;
+    line-height:1.8;
+    max-width:550px;
+}
+
+.profile-btn{
+    display:inline-block;
+    margin-top:25px;
+    padding:14px 28px;
+    border-radius:12px;
+    background:#19d3ae;
+    color:#111;
+    text-decoration:none;
+    font-weight:bold;
+    box-shadow:0 10px 25px rgba(25,211,174,.25);
+    transition:.3s;
+}
+
+.profile-btn:hover{
+    transform:translateY(-4px);
+    color:#111;
+}
+
+/* ===== PROFILE AVATAR ===== */
+
+.profile-photo{
+    width:320px;
+    height:320px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#19d3ae;
+    clip-path:polygon(
+        25% 5%,
+        75% 5%,
+        100% 50%,
+        75% 95%,
+        25% 95%,
+        0% 50%
+    );
+    box-shadow:0 0 45px rgba(25,211,174,.35);
+}
+
+.profile-photo-inner{
+    width:285px;
+    height:285px;
+    background:#202631;
+    clip-path:polygon(
+        25% 5%,
+        75% 5%,
+        100% 50%,
+        75% 95%,
+        25% 95%,
+        0% 50%
+    );
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:100px;
+}
+.profile-photo-inner img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+}
+
+/* ===== SECTION ===== */
+
+.profile-section{
+    padding:55px 60px;
+    border-top:1px solid rgba(255,255,255,.04);
+}
+
+.section-small{
+    color:#19d3ae;
+    font-weight:bold;
+    font-size:17px;
+}
+
+.section-title{
+    font-size:42px;
+    font-weight:800;
+    margin:5px 0 35px;
+}
+
+/* ===== TECH CARDS ===== */
+
+.tech-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.tech-card{
+    background:#202631;
+    padding:25px 15px;
+    text-align:center;
+    border-radius:8px;
+    border:1px solid rgba(255,255,255,.03);
+    transition:.3s;
+}
+
+.tech-card:hover{
+    transform:translateY(-8px);
+    border-color:#19d3ae;
+    box-shadow:0 10px 30px rgba(25,211,174,.10);
+}
+
+.tech-icon{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.tech-card h5{
+    margin:0;
+    font-weight:bold;
+}
+
+.tech-card p{
+    color:#9da5b0;
+    font-size:13px;
+    margin-top:8px;
+}
+
+/* ===== FEATURE GRID ===== */
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.feature-card{
+    background:#202631;
+    padding:28px;
+    border-radius:10px;
+    min-height:190px;
+    transition:.3s;
+}
+
+.feature-card:hover{
+    transform:translateY(-7px);
+    box-shadow:0 15px 35px rgba(0,0,0,.3);
+}
+
+.feature-icon{
+    font-size:35px;
+    margin-bottom:15px;
+}
+
+.feature-card h4{
+    font-weight:bold;
+}
+
+.feature-card p{
+    color:#aab1bb;
+    line-height:1.6;
+    font-size:14px;
+}
+
+/* ===== PROJECT INFO ===== */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.info-box{
+    background:#202631;
+    padding:22px;
+    border-left:4px solid #19d3ae;
+    border-radius:6px;
+}
+
+.info-box strong{
+    color:#19d3ae;
+}
+
+.info-box p{
+    color:#b8bec7;
+    margin:5px 0 0;
+}
+
+/* ===== SOCIAL ===== */
+
+.socials{
+    margin-top:25px;
+}
+
+.social-btn{
+    display:inline-flex;
+    width:45px;
+    height:45px;
+    align-items:center;
+    justify-content:center;
+    background:#202631;
+    color:#19d3ae;
+    border-radius:10px;
+    margin-right:8px;
+    text-decoration:none;
+    font-size:20px;
+    transition:.3s;
+}
+
+.social-btn:hover{
+    background:#19d3ae;
+    color:#111;
+    transform:translateY(-4px);
+}
+
+/* ===== FOOTER ===== */
+
+.profile-footer{
+    padding:30px;
+    text-align:center;
+    background:#11161e;
+    color:#8f98a5;
+}
+
+.profile-footer span{
+    color:#19d3ae;
+}
+
+/* ===== MOBILE ===== */
+
+@media(max-width:768px){
+
+    .profile-hero{
+        flex-direction:column-reverse;
+        padding:40px 25px;
+        text-align:center;
+    }
+
+    .profile-photo{
+        width:240px;
+        height:240px;
+    }
+
+    .profile-photo-inner{
+        width:215px;
+        height:215px;
+    }
+
+    .hero-left h1{
+        font-size:38px;
+    }
+
+    .hero-role{
+        font-size:18px;
+    }
+
+    .profile-section{
+        padding:40px 25px;
+    }
+
+    .section-title{
+        font-size:32px;
+    }
+
+    .tech-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .feature-grid{
+        grid-template-columns:1fr;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+
+
+<div class="profile-page">
+
+<div class="profile-container">
+
+<!-- ================= HERO ================= -->
+
+<section class="profile-hero">
+
+<div class="hero-left">
+
+<div class="small-title">
+👨‍💻 COLLEGE SMART PORTAL
+</div>
+
+<h1>
+Hello, I'm <span>Dipak Madane</span>
+</h1>
+
+<div class="hero-role">
+Computer Engineering Student & Python / Flask Developer
+</div>
+
+<p class="hero-description">
+
+I developed the <b>College Smart Portal</b> as a complete
+student management and AI-powered learning platform.
+
+The project combines student records, authentication,
+attendance, marks, notices and modern AI features
+into one responsive web application.
+
+</p>
+
+<a href="#project" class="profile-btn">
+🚀 Explore My Project
+</a>
+
+<div class="socials">
+
+<a href="#" class="social-btn">💻</a>
+<a href="#" class="social-btn">📧</a>
+<a href="#" class="social-btn">🔗</a>
+
+</div>
+
+</div>
+
+
+<div class="profile-photo">
+
+<div class="profile-photo-inner">
+    <img src="{{ url_for('static', filename='uploads/dipak1.jpeg') }}" alt="Dipak Madane">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PROJECT ================= -->
+
+<section class="profile-section" id="project">
+
+<div class="section-small">
+MY PROJECT
+</div>
+
+<h2 class="section-title">
+College Smart Portal
+</h2>
+
+<p class="hero-description">
+
+A modern college management system designed to make
+student information, academic records and AI-powered
+study assistance easily accessible from one platform.
+
+</p>
+
+
+<div class="info-grid mt-4">
+
+<div class="info-box">
+<strong>🎯 Project Type</strong>
+<p>College Management & AI Learning Platform</p>
+</div>
+
+<div class="info-box">
+<strong>🐍 Backend</strong>
+<p>Python + Flask</p>
+</div>
+
+<div class="info-box">
+<strong>🗄️ Database</strong>
+<p>SQLite</p>
+</div>
+
+<div class="info-box">
+<strong>🎨 Frontend</strong>
+<p>HTML, CSS, Bootstrap & Jinja2</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= TECHNOLOGIES ================= -->
+
+<section class="profile-section">
+
+<div class="section-small">
+TECHNOLOGIES
+</div>
+
+<h2 class="section-title">
+What I Used
+</h2>
+
+
+<div class="tech-grid">
+
+<div class="tech-card">
+<div class="tech-icon">🐍</div>
+<h5>Python</h5>
+<p>Backend programming and application logic</p>
+</div>
+
+<div class="tech-card">
+<div class="tech-icon">🌐</div>
+<h5>Flask</h5>
+<p>Web framework and routing</p>
+</div>
+
+<div class="tech-card">
+<div class="tech-icon">🗄️</div>
+<h5>SQLite</h5>
+<p>Student and user database</p>
+</div>
+
+<div class="tech-card">
+<div class="tech-icon">🎨</div>
+<h5>Bootstrap</h5>
+<p>Responsive and modern UI</p>
+</div>
+
+<div class="tech-card">
+<div class="tech-icon">📄</div>
+<h5>HTML / CSS</h5>
+<p>Website structure and styling</p>
+</div>
+
+<div class="tech-card">
+<div class="tech-icon">🧩</div>
+<h5>Jinja2</h5>
+<p>Dynamic Flask templates</p>
+</div>
+
+<div class="tech-card">
+<div class="tech-icon">🤖</div>
+<h5>Groq AI</h5>
+<p>AI-powered learning features</p>
+</div>
+
+<div class="tech-card">
+<div class="tech-icon">🔐</div>
+<h5>Git / GitHub</h5>
+<p>Project version control</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="profile-section">
+
+<div class="section-small">
+PROJECT FEATURES
+</div>
+
+<h2 class="section-title">
+What I Built
+</h2>
+
+
+<div class="feature-grid">
+
+<div class="feature-card">
+<div class="feature-icon">🔐</div>
+<h4>Authentication</h4>
+<p>
+Student registration and login system with
+password hashing and session management.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">👨‍💼</div>
+<h4>Admin Role</h4>
+<p>
+Role-based access where the admin can add,
+edit and delete student records.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">👨‍🎓</div>
+<h4>Student Records</h4>
+<p>
+Student name, roll number, attendance, marks,
+branch and profile photo management.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">🔎</div>
+<h4>Search & Filter</h4>
+<p>
+Search students by name and filter records
+using attendance percentage.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">📑</div>
+<h4>Pagination</h4>
+<p>
+Student records are divided into pages for
+better performance and usability.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">📸</div>
+<h4>Photo Upload</h4>
+<p>
+Students can have profile photos stored
+inside the uploads folder.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">📢</div>
+<h4>Notice Board</h4>
+<p>
+Important college announcements such as exams,
+holidays and project submissions.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">🤖</div>
+<h4>AI Study Tips</h4>
+<p>
+Students enter marks and subject information
+to receive personalized AI study suggestions.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">💡</div>
+<h4>AI Doubt Assistant</h4>
+<p>
+An AI-powered feature that helps students
+get answers to their study-related doubts.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">🌙</div>
+<h4>Dark Mode</h4>
+<p>
+Modern theme switching using Bootstrap theme
+support and localStorage.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">🏫</div>
+<h4>Branch Management</h4>
+<p>
+Separate student counts for Computer,
+Mechanical, Civil, Electrical, ENTC and AI-DS.
+</p>
+</div>
+
+
+<div class="feature-card">
+<div class="feature-icon">📱</div>
+<h4>Responsive Design</h4>
+<p>
+The portal is designed to work across
+desktop, tablet and mobile screens.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= SKILLS ================= -->
+
+<section class="profile-section">
+
+<div class="section-small">
+MY LEARNING
+</div>
+
+<h2 class="section-title">
+Skills I've Practiced
+</h2>
+
+<div class="info-grid">
+
+<div class="info-box">
+<strong>🐍 Python Programming</strong>
+<p>
+Lists, functions, dictionaries, classes,
+file handling and application logic.
+</p>
+</div>
+
+<div class="info-box">
+<strong>🌐 Flask Development</strong>
+<p>
+Routes, GET/POST requests, templates,
+sessions, redirects and flash messages.
+</p>
+</div>
+
+<div class="info-box">
+<strong>🗃️ Database Management</strong>
+<p>
+SQLite, SQL queries, CRUD operations,
+tables, filtering and relationships.
+</p>
+</div>
+
+<div class="info-box">
+<strong>🎨 Web Development</strong>
+<p>
+HTML, CSS, Bootstrap, responsive design,
+cards, forms, navbar and modern UI.
+</p>
+</div>
+
+<div class="info-box">
+<strong>🧩 Jinja2 Templates</strong>
+<p>
+Template inheritance, loops, conditions,
+dynamic data and reusable base templates.
+</p>
+</div>
+
+<div class="info-box">
+<strong>🤖 AI Integration</strong>
+<p>
+Integrated Groq AI to create personalized
+study tips and an AI doubt assistant.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PROJECT JOURNEY ================= -->
+
+<section class="profile-section">
+
+<div class="section-small">
+MY JOURNEY
+</div>
+
+<h2 class="section-title">
+From Basic Website to AI Portal 🚀
+</h2>
+
+<div class="info-grid">
+
+<div class="info-box">
+<strong>01 • Foundation</strong>
+<p>
+Started with Python and Flask and created
+the basic College Smart Portal structure.
+</p>
+</div>
+
+<div class="info-box">
+<strong>02 • Database</strong>
+<p>
+Added SQLite database and created student
+and user tables.
+</p>
+</div>
+
+<div class="info-box">
+<strong>03 • Authentication</strong>
+<p>
+Added Register, Login, Logout, sessions,
+password hashing and admin roles.
+</p>
+</div>
+
+<div class="info-box">
+<strong>04 • Student Management</strong>
+<p>
+Implemented Add, Edit, Delete, Search,
+Filter, Pagination and Photo Upload.
+</p>
+</div>
+
+<div class="info-box">
+<strong>05 • Modern UI</strong>
+<p>
+Added Bootstrap, responsive layouts,
+cards, gradients, animations and Dark Mode.
+</p>
+</div>
+
+<div class="info-box">
+<strong>06 • AI Features</strong>
+<p>
+Integrated Groq AI with AI Study Tips and
+AI Doubt Assistant.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<div class="profile-footer">
+
+🎓 <span>College Smart Portal</span>
+
+<br>
+
+Built with Python • Flask • SQLite • Bootstrap • Jinja2 • AI
+
+<br><br>
+
+© 2026 Dipak Madane
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

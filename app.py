@@ -522,6 +522,9 @@ def ai_doubt():
         "ai_doubt.html",
         answer=answer
     )
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
 
 # Log out page
 @app.route("/logout")
