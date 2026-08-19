@@ -29,7 +29,7 @@ Keep the answer educational and concise.
 """
 
     response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+        model="openai/gpt-oss-20b",
         messages=[
             {
                 "role": "user",
@@ -279,7 +279,7 @@ Give exactly 5 practical study tips in numbered points.
 """
 
         response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model="openai/gpt-oss-20b",
             messages=[
                 {
                     "role": "user",
