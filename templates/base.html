@@ -260,16 +260,16 @@ body{
                         </a>
                     </li>
 
-                {% if session.get("username") %}
+              
 
-                    {% if session.get("role") == "admin" %}
+                  
                     <li class="nav-item">
                         <a class="nav-link" href="/add">
                             <i class="fas fa-user-plus"></i>
                             <span>Add Student</span>
                         </a>
                     </li>
-                    {% endif %}
+                
                     
                     <li class="nav-item">
                         <a class="nav-link logout-btn" href="/logout">
@@ -278,7 +278,7 @@ body{
                         </a>
                     </li>
 
-                {% else %}
+            
 
                     <li class="nav-item">
                         <a class="nav-link" href="/login">
@@ -294,7 +294,7 @@ body{
                         </a>
                     </li>
 
-                {% endif %}
+            
 
                 <li class="nav-item ms-2">
                     <button class="theme-btn" onclick="toggleTheme()">
